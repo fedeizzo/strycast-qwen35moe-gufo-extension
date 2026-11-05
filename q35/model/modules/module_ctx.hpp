@@ -3,7 +3,7 @@
 #define GUFO_MODELS_QWEN_MODULES_MODULE_CTX_HPP_
 
 #include <cstdint>
-#include <gufo/ext/model_config.hpp>
+#include "q35/family/config/model_config.hpp"
 
 #include "q35/model/state.hpp"
 

@@ -9,7 +9,7 @@
 #include <cstring>
 #include <gufo/ext/experimental/ggml_dequant.hpp>
 #include <gufo/ext/gguf_reader.hpp>
-#include <gufo/ext/model_config.hpp>
+#include "q35/family/config/model_config.hpp"
 #include <limits>
 #include <memory>
 #include <optional>

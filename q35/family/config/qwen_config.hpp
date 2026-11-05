@@ -5,7 +5,7 @@
 #include <optional>
 #include <string>
 
-#include <gufo/ext/model_config.hpp>
+#include "q35/family/config/model_config.hpp"
 
 namespace strycast::models::qwen {
 

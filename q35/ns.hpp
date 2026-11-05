@@ -32,3 +32,7 @@ namespace strycast::quant { using namespace ::gufo::quant; }
 namespace strycast::sampling { using namespace ::gufo::sampling; }
 namespace strycast::server { using namespace ::gufo::server; }
 namespace strycast::speculative { using namespace ::gufo::speculative; }
+
+// The extension's own ModelConfig (routed-expert fields) must be the only
+// core::ModelConfig any translation unit sees.
+#include "q35/family/config/model_config.hpp"

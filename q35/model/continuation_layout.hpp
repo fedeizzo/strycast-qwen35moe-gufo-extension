@@ -3,7 +3,7 @@
 #define GUFO_MODELS_QWEN_CONTINUATION_LAYOUT_HPP_
 
 #include <gufo/ext/adapter.hpp>
-#include <gufo/ext/model_config.hpp>
+#include "q35/family/config/model_config.hpp"
 #include <gufo/ext/types.hpp>
 #include <span>
 #include <vector>

@@ -7,7 +7,7 @@
 #include <cstdint>
 #include <exception>
 #include <functional>
-#include <gufo/ext/model_config.hpp>
+#include "q35/family/config/model_config.hpp"
 #include <memory>
 #include <optional>
 #include <span>
