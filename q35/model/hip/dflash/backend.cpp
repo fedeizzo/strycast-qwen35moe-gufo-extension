@@ -255,33 +255,6 @@ QwenDFlashGpuDraftBackend::CreateFromGguf(
   return Create(std::move(model), config, error_msg);
 }
 
-std::uint32_t QwenDFlashGpuDraftBackend::TargetContextWindow() const noexcept {
-  return executor_->GetHistoryCapacity();
-}
-
-bool QwenDFlashGpuDraftBackend::SkipTargetContext(std::uint32_t position,
-                                                  std::uint32_t count,
-                                                  bool prime) {
-  if (prime) {
-    Reset();
-    if (position != 0 || count == 0) {
-      return false;
-    }
-  } else if (!primed_ || proposal_active_ ||
-             position < executor_->GetInjectedContextLength()) {
-    return false;
-  }
-  if (count > config_.max_context - position) {
-    return false;
-  }
-  // Features of committed tokens that precede skipped positions are older
-  // still, so they are dropped with them.
-  pending_target_features_.clear();
-  executor_->SkipTargetContextTo(position + count);
-  primed_ = true;
-  return true;
-}
-
 bool QwenDFlashGpuDraftBackend::PrimeTargetContext(
     const speculative::DraftTargetContext& context) {
   CheckContinuation();

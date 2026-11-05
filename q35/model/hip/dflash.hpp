@@ -374,11 +374,6 @@ public:
       const speculative::DraftTargetContext& context,
       std::uint32_t position) override;
 
-  [[nodiscard]] std::uint32_t TargetContextWindow() const noexcept override;
-  [[nodiscard]] bool SkipTargetContext(std::uint32_t position,
-                                       std::uint32_t count,
-                                       bool prime) override;
-
   void UpdateTargetHidden(std::span<const float> hidden) override;
 
   [[nodiscard]] speculative::DraftProposal Propose(
