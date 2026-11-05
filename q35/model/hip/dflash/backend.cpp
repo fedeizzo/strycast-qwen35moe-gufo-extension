@@ -423,7 +423,8 @@ std::vector<speculative::DraftProposal> QwenDFlashGpuDraftBackend::ProposeBatch(
             ? backend.config_.max_context - request.position - 1U
             : 0U;
     controllers[index] = &backend.controller_;
-    budgets[index] = std::min(request.max_tokens, budget);
+    budgets[index] =
+        std::min({request.max_tokens, budget, backend.step_draft_cap_});
     positions[index] = request.position;
   }
   const auto shared_count =
@@ -668,6 +669,7 @@ speculative::DraftProposal QwenDFlashGpuDraftBackend::ProposeImpl(
   if (!primed_ || prompt_tokens.empty() || current_pos == 0) {
     throw std::logic_error("DFlash GPU draft backend is not primed");
   }
+  max_tokens = std::min(max_tokens, step_draft_cap_);
   if (proposal_active_) {
     throw std::logic_error("DFlash GPU proposal feedback is pending");
   }

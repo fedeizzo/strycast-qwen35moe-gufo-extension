@@ -362,7 +362,8 @@ speculative::DraftProposal QwenMtpGpuDraftBackend::Propose(
 
   speculative::DraftProposal proposal;
   proposal.start_pos = current_pos;
-  const std::uint32_t count = std::min(max_tokens, config_.max_draft_tokens);
+  const std::uint32_t count =
+      std::min({max_tokens, config_.max_draft_tokens, step_draft_cap_});
   if (count == 0) {
     return proposal;
   }
@@ -412,7 +413,8 @@ speculative::DraftProposal QwenMtpGpuDraftBackend::ProposeSampled(
 
   speculative::DraftProposal proposal;
   proposal.start_pos = current_pos;
-  const std::uint32_t count = std::min(max_tokens, config_.max_draft_tokens);
+  const std::uint32_t count =
+      std::min({max_tokens, config_.max_draft_tokens, step_draft_cap_});
   if (count == 0) {
     return proposal;
   }
@@ -516,8 +518,9 @@ std::vector<speculative::DraftProposal> QwenMtpGpuDraftBackend::ProposeBatch(
   for (std::size_t index = 0; index < requests.size(); ++index) {
     const auto& request = requests[index];
     const auto& backend = *backends[index];
-    const auto count =
-        std::min(request.max_tokens, backend.config_.max_draft_tokens);
+    const auto count = std::min({request.max_tokens,
+                                 backend.config_.max_draft_tokens,
+                                 backend.step_draft_cap_});
     if (backend.executor_->GetNextPosition() + count >
         backend.executor_->GetMaxContext()) {
       throw std::invalid_argument(
