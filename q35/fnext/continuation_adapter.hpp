@@ -3,7 +3,7 @@
 #define GUFO_MODELS_QWEN38_FLASH_NEXT_CONTINUATION_ADAPTER_HPP_
 
 #include <gufo/ext/adapter.hpp>
-#include <gufo/ext/experimental/transfer_pool.hpp>
+#include <gufo/ext/transfer_pool.hpp>
 
 #include "q35/fnext/continuation_layout.hpp"
 #include "q35/fnext/engine.hpp"
