@@ -1,0 +1,17 @@
+strycast-qwen35moe
+Copyright (c) 2026 Gufo contributors
+
+This extension is generated from Strycast (https://github.com/slimsami/strycast),
+a fork of Gufo (https://github.com/gufo-org/gufo). Gufo and Strycast code is
+licensed under the MIT License in LICENSE. Third-party code keeps its original
+copyright and license terms:
+
+- llama.cpp / ggml: Copyright (c) 2023-2026 The ggml authors (MIT), in
+  licenses/llama.cpp.txt. The adapted MMQ kernels are in
+  q35/fnext/kernels/rocm/mmq; see VENDOR.md there for the revision.
+- Qwen reference chat templates: Alibaba Cloud / Qwen (Apache-2.0), in
+  licenses/qwen.txt. Gufo implements a separate bounded renderer.
+- Strix Halo optimization ideas from MIT-licensed llama.cpp forks
+  (LaurentZuijdwijk/llama.cpp, Nathanw1014/strix-halo-llamacpp,
+  gaetan-puleo/llama-cpp-strix-halo); Nathan Wilson's notice is in
+  licenses/strix-halo-llamacpp.txt.
