@@ -1,0 +1,69 @@
+#include "q35/ns.hpp"
+#include "q35/model/probe.hpp"
+
+#include <filesystem>
+#include <string>
+
+#include "q35/family/config/qwen_config.hpp"
+
+namespace strycast::models::qwen {
+
+bool ProbeQwenGguf(const core::GgufReader& reader) {
+  const auto architecture =
+      reader.GetMetadataString("general.architecture").value_or("");
+  if (architecture == "deepseek4" || architecture == "qwen4exp") {
+    return false;
+  }
+  // Qwen3.6-35B-A3B and Ornith-1.5-122B share the hybrid runner with routed
+  // MoE layers (Strycast).
+  if (architecture == "qwen35moe") {
+    const auto width =
+        reader.GetMetadataUint64("qwen35moe.embedding_length").value_or(0);
+    return width == 2048 || width == 3072;
+  }
+  if (architecture != "qwen" && architecture != "qwen2" &&
+      architecture != "qwen35" && architecture != "qwen38") {
+    return false;
+  }
+  const std::string prefix = std::string(architecture) + ".";
+  const auto embedding_length =
+      reader.GetMetadataUint64("qwen35.embedding_length")
+          .value_or(reader.GetMetadataUint64(prefix + "embedding_length")
+                        .value_or(0));
+  return embedding_length == 5120;
+}
+
+std::optional<sampling::TextSamplingDefaults> QwenSamplingDefaults(
+    const core::ModelConfig& config) {
+  return sampling::PresetDefaults(sampling::TextPreset(config));
+}
+
+std::optional<sampling::TextSamplingDefaults> QwenSamplingDefaults(
+    const core::GgufReader& reader) {
+  const auto config = ExtractQwenConfig(reader);
+  if (!config.has_value()) {
+    return std::nullopt;
+  }
+  return QwenSamplingDefaults(*config);
+}
+
+bool ProbeQwen(std::string_view model_root) {
+  try {
+    std::filesystem::path p(model_root);
+    if (!std::filesystem::exists(p)) {
+      return false;
+    }
+    if (std::filesystem::is_regular_file(p)) {
+      std::string err;
+      auto reader = core::GgufReader::OpenFile(p.string(), &err);
+      if (!reader)
+        return false;
+      return ProbeQwenGguf(*reader);
+    }
+    return false;
+  } catch (...) {
+    return false;
+  }
+}
+
+}  // namespace strycast::models::qwen
