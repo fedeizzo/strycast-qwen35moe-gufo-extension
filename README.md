@@ -1,4 +1,4 @@
-# strycast-qwen35moe
+# strycast-qwen35moe-gufo-extension
 
 A static [Gufo](https://github.com/gufo-org/gufo) extension that serves
 **Qwen3.6-35B-A3B** and **Ornith 1.5 122B** (GGUF architecture `qwen35moe`) on
@@ -15,7 +15,7 @@ against later Gufo commits.
 Clone Gufo `main` and point its build at this directory:
 
 ```sh
-cmake --preset gpu-test -DGUFO_EXTENSION_DIRS=/absolute/path/to/strycast-qwen35moe
+cmake --preset gpu-test -DGUFO_EXTENSION_DIRS=/absolute/path/to/strycast-qwen35moe-gufo-extension
 cmake --build --preset gpu-test --target gufo --parallel
 build/gpu-test/gufo diagnose --section extensions --json
 ```
