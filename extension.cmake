@@ -17,6 +17,7 @@ gufo_extension_target(
   LINK_LIBRARIES
     gufo_ext_runtime
     gufo_ext_core
+    ICU::uc
 )
 
 gufo_extension_target(
@@ -157,10 +158,10 @@ gufo_extension_target(
 
 # The model and family sources carry HIP overloads behind ENGINE_ENABLE_HIP,
 # which the in-tree targets get from gufo_core. gufo_ext_hip, present only in
-# HIP builds, supplies it here.
+# HIP builds, supplies it here, with hipBLAS for the GEMM helpers they include.
 foreach(target strycast_q35_family strycast_q35)
   if(TARGET ${target} AND TARGET gufo_ext_hip)
-    target_link_libraries(${target} PRIVATE gufo_ext_hip)
+    target_link_libraries(${target} PRIVATE gufo_ext_hip roc::hipblas)
   endif()
 endforeach()
 
@@ -196,6 +197,7 @@ gufo_extension_target(
     gufo_ext_hip
     strycast_q35
     strycast_q35_kernels
+    roc::hipblas
 )
 
 gufo_extension_hip_sources(strycast_q35_hip
